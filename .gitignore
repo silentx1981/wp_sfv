@@ -1,0 +1,9 @@
+# Jetbrains Products
+.idea/
+
+# Composer
+./vendor
+
+# PHPUnit
+.phpunit.cache
+./coverage

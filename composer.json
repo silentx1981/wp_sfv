@@ -1,0 +1,20 @@
+{
+    "autoload": {
+      "psr-4": {
+          "wpSfv\\": "src/"
+      }
+    },
+    "repositories": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/silentx1981/SfvApi"
+        }
+    ],
+    "require": {
+      "silentx1981/sfvapi": "dev-main"
+    },
+    "require-dev": {
+      "phpstan/phpstan": "^1.12",
+      "phpunit/phpunit": "^11.3"
+    }
+}

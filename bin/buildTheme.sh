@@ -1,0 +1,1 @@
+sass ./theme/scss/wpSfv.scss > ./css/wpSfv.css
