@@ -1,0 +1,11 @@
+@import "Variables";
+@import "Games/Games";
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+$fa-font-path: '../node_modules/@fortawesome/fontawesome-free/webfonts';
+@import '../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome';
+@import '../../node_modules/@fortawesome/fontawesome-free/scss/solid';   // Falls du nur Solid-Icons brauchst
+@import '../../node_modules/@fortawesome/fontawesome-free/scss/regular'; // Für Regular-Icons
+@import '../../node_modules/@fortawesome/fontawesome-free/scss/brands';
+

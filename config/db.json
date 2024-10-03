@@ -1,0 +1,140 @@
+{
+  "lastrun": {
+    "tablename": {
+      "type": "string",
+      "primarykey": true
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "schedule": {
+    "matchId": {
+      "type": "integer",
+      "format": "int32",
+      "primarykey": true
+    },
+    "matchNumber": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "matchDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "groupId": {
+      "type": "integer",
+      "format": "int32",
+      "nullable": true
+    },
+    "cupId": {
+      "type": "integer",
+      "format": "int32",
+      "nullable": true
+    },
+    "groupName": {
+      "type": "string",
+      "nullable": true
+    },
+    "roundNbr": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "playgroundId": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "stadiumPlaygroundName": {
+      "type": "string",
+      "nullable": true
+    },
+    "isUnkownPlayground": {
+      "type": "boolean"
+    },
+    "leagueId": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "leagueNumber": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "leagueName": {
+      "type": "string",
+      "nullable": true
+    },
+    "divisionId": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "divisionName": {
+      "type": "string",
+      "nullable": true
+    },
+    "organisationId": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "organisationName": {
+      "type": "string",
+      "nullable": true
+    },
+    "matchType": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "matchTypeName": {
+      "type": "string",
+      "nullable": true
+    },
+    "matchState": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "matchStateName": {
+      "type": "string",
+      "nullable": true
+    },
+    "playDay": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "playDayName": {
+      "type": "string",
+      "nullable": true
+    },
+    "seasonId": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "seasonName": {
+      "type": "string",
+      "nullable": true
+    },
+    "scoreTeamA": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "scoreTeamB": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "teamAId": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "teamNameA": {
+      "type": "string",
+      "nullable": true
+    },
+    "teamBId": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "teamNameB": {
+      "type": "string",
+      "nullable": true
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "sfvApiCredentials": {
+    "url": "https://stg-club-api-services.football.ch",
+    "username": "",
+    "password": ""
+  },
+  "sfvApiInfos": {
+    "seasonid": 2025,
+    "clubid": 9999
+  },
+  "tableConfig": {
+    "prefix": "sfv_"
+  },
+  "teams": {
+    "names": {
+      "99999": "MyName"
+    },
+    "homeIds": [99999]
+  },
+  "league": {
+    "names": {
+      "99999": "1. Mannschaft"
+    }
+  }
+}

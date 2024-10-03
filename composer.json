@@ -1,7 +1,8 @@
 {
     "autoload": {
       "psr-4": {
-          "wpSfv\\": "src/"
+          "wpSfv\\": "src/",
+          "SfvApi\\": "vendor/silentx1981/sfvapi/src/"
       }
     },
     "repositories": [
