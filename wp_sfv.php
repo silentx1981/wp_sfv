@@ -37,3 +37,4 @@ register_activation_hook(__FILE__, ['wp_sfv', 'activate']);
 register_deactivation_hook( __FILE__, ['wp_sfv', 'deactivate']);
 \wpSfv\Wp\AddShortcodes::run();
 \wpSfv\Wp\AddActions::run();
+new \wpSfv\Wp\AdminPage();

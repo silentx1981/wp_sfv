@@ -15,6 +15,7 @@ class AddActions
         $dir = plugins_url().'/wp_sfv/';
         wp_enqueue_script('jquery', $dir.'node_modules/jquery/dist/jquery.min.js', [], false, true);
         wp_enqueue_script('bootstrap', $dir.'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js', [], false, true);
+        wp_enqueue_script('wpSfvJs', $dir.'js/wpSfv.js', [], false, true);
         //wp_enqueue_script('owlcarousel', $dir.'node_modules/owl.carousel2/dist/owl.carousel.min.js', [], false, true);
     }
 

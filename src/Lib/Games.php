@@ -31,13 +31,42 @@ class Games
         }
     }
 
-    public function getGames($viewMode = self::ViewMode_Grid, $groupBy = self::GroupBy_Game)
+    public function getGames($viewMode = self::ViewMode_Grid, $groupBy = self::GroupBy_Game, $daysBefore = null, $daysAfter = null, $teamId = null)
     {
         global $wpdb;
         $db = new DB();
+        $today = new \DateTime('now');
         $dbTableName = $db->getWordpressTableName($this->tableName);
+        $where =  [];
 
-        $sql = 'SELECT * FROM ' . $dbTableName .' ORDER BY matchDate';
+        if ($teamId !== null)
+            $where[] = ' (teamAId = '.$teamId.' OR teamBId = '.$teamId.')';
+        if ($daysBefore !== null) {
+            $td = clone $today;
+            $interval = new \DateInterval('P'.abs($daysBefore).'D');
+            if ($daysBefore > 0)
+                $interval->invert = 1;
+
+            $td->add($interval);
+            $where[] = 'matchDate >= \'' . $td->format('Y-m-d') . '\'';
+        }
+        if ($daysAfter !== null) {
+            $td = clone $today;
+            $interval = new \DateInterval('P'.abs($daysAfter).'D');
+            if ($daysAfter < 0)
+                $interval->invert = 1;
+
+            $td->add($interval);
+            $where[] = 'matchDate <= \'' . $td->format('Y-m-d') . '\'';
+        }
+
+
+        if ($where !== [])
+            $where = ' WHERE '.implode(' AND ', $where);
+        else
+            $where = null;
+
+        $sql = 'SELECT * FROM ' . $dbTableName .' '.$where.' ORDER BY matchDate';
         $games = $wpdb->get_results($sql, ARRAY_A);
 
         if ($groupBy === self::GroupBy_Day)
@@ -76,11 +105,15 @@ class Games
         $teamNameB = $teams->renderTeamName($game['teamBId'], $game['teamNameB']);
         $scoreTeamB = $this->renderScore($game['scoreTeamB'], $game['matchState']);
         $typeIcon = '';
+        $matchStateName = '';
 
         if ($game['matchType'] === '2')
             $typeIcon = '<span><i class="fa-solid fa-trophy"></i> </span>';
         else if ($game['matchType'] === '3')
             $typeIcon = '<span><i class="fa-solid fa-dumbbell"></i> </span>';
+
+        if ($game['matchState'] > 2)
+            $matchStateName = '<div class="text-danger pt-2"><small><i class="fa-solid fa-triangle-exclamation"></i> '.$game['matchStateName'].'</small></div>';
 
         if ($teams->isHomeTeam($game['teamAId'])) {
             $teamNameA = "<strong>$teamNameA</strong>";
@@ -115,21 +148,30 @@ class Games
                                 '.$scoreTeamB.'
                             </div>
                         </div>
+                        '.$matchStateName.'
                     </div>';
 
         return $result;
     }
 
-    private function renderGameDay($gamedaykey, $gameday)
+    private function renderGameDay($gamedaykey, $gameday, $type = self::ViewMode_Grid)
     {
-        $matchDate = new \DateTime($gamedaykey);
-        $date = $matchDate->format('l d. F Y');
+        $date = Date::formatDateGerman($gamedaykey);
 
         $games = [];
         foreach ($gameday as $game)
             $games[] = $this->renderGame($game);
 
-        $result = '    
+        if ($type === self::ViewMode_Grid) {
+            $result = '    
+                    <div class="">
+                        <div class="card m-2">
+                            <div class="card-header text-center"><strong>'.$date.'</strong></div>
+                            <div class="card-body">'.implode('<hr class="mb-2 border-2">', $games).'</div> 
+                       </div>
+                    </div>';
+        } else {
+            $result = '    
                     <div class="col-md-4">
                         <div class="card m-2">
                             <div class="card-header text-center"><strong>'.$date.'</strong></div>
@@ -137,6 +179,8 @@ class Games
                        </div>
                        <br><br><br><br>
                     </div>';
+        }
+
 
         return $result;
     }
@@ -157,7 +201,7 @@ class Games
 
             $gamedays = [];
             foreach ($games as $gamekey => $game) {
-                $gamedays[] = $this->renderGameDay($gamekey, $game);
+                $gamedays[] = $this->renderGameDay($gamekey, $game, self::ViewMode_Carousel);
             }
 
             $items[] = '
@@ -169,9 +213,11 @@ class Games
                     </div>
                 </div>
             ';
+
             $indicators[] = '
-                <button type="button" data-bs-target="#'.$slideId.'" data-bs-slide-to="'.$chunkIndex.'" '.$indicatorActive.' aria-label="Slide '.($chunkIndex+1).'" ></button>
+                <span class="mx-2" type="button" data-bs-target="#'.$slideId.'" data-bs-slide-to="'.$chunkIndex.'" '.$indicatorActive.' aria-label="Slide '.($chunkIndex+1).'" ><i class="fa-solid fa-window-minimize text-primary"></i></button>
             ';
+
 
             $active = '';
             $indicatorActive = '';
@@ -180,20 +226,16 @@ class Games
 
         $result = '
             <div id="'.$slideId.'" class="carousel slide">
-                <div class="carousel-indicators">
-                    '.implode('', $indicators).'
-                </div>
-                <div class="carousel-inner" style="background-color: #8899aa">
+                <div class="carousel-inner">
+                    <div class="d-flex justify-content-between align-item-center">
+                        <button class="btn btn-outline-primary" data-bs-target="#'.$slideId.'" data-bs-slide="prev"><i class="fa-solid fa-chevron-left"></i></button>                    
+                        <div class="d-flex align-item-center">
+                            '.implode('', $indicators).'
+                        </div>
+                        <button class="btn btn-outline-primary" data-bs-target="#'.$slideId.'" data-bs-slide="next"><i class="fa-solid fa-chevron-right"></i></button>
+                    </div>
                     '.implode(  '', $items).'
                 </div>
-                  <button class="carousel-control-prev" type="button" data-bs-target="#'.$slideId.'" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#'.$slideId.'" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                  </button>
             </div>
         ';
 
@@ -203,9 +245,9 @@ class Games
     private function renderGamesGrid($games)
     {
         $renderedGames = '';
-        foreach ($games as $game) {
-            $renderedGame = $this->renderGameDay($game);
-            $renderedGames .= '<div class="col-md-4 col-sm-6 col-12 pb-3">'.$renderedGame.'</div>';
+        foreach ($games as $gamekey => $game) {
+            $renderedGame = $this->renderGameDay($gamekey, $game);
+            $renderedGames .= '<div class="col-md-4">'.$renderedGame.'</div>';
         }
 
         $result = '<div class="container-fluid"><div class="row">'.$renderedGames.'</div></div>';

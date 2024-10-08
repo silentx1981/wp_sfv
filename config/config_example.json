@@ -1,0 +1,26 @@
+{
+  "sfvApiCredentials": {
+    "url": "https://stg-club-api-services.football.ch",
+    "username": "5ea994ee559e41c499804bacc6033cfb",
+    "password": "apitest"
+  },
+  "sfvApiInfos": {
+    "seasonid": 2025,
+    "clubid": 1831
+  },
+  "tableConfig": {
+    "prefix": "sfv_"
+  },
+  "teams": {
+    "names": {
+      "73196": "FC Hägendorf rot"
+    },
+    "homeIds": [41006, 52057, 73196]
+  },
+  "league": {
+    "names": {
+      "13029": "1. Mannschaft",
+      "13030": "2. Mannschaft"
+    }
+  }
+}

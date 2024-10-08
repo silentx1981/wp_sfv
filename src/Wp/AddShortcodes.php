@@ -3,10 +3,6 @@
 namespace wpSfv\Wp;
 
 use SfvApi\Config\Config;
-use SfvApi\Sfv;
-use wpSfv\Db\CreateDb;
-use wpSfv\Db\DB;
-use wpSfv\Db\DropDb;
 use wpSfv\Lib\Games;
 
 class AddShortcodes
@@ -19,27 +15,14 @@ class AddShortcodes
 
     public static function getGames(array $attrs = [])
     {
+        $viewMode = $attrs['viewMode'] ?? Games::ViewMode_Grid;
+        $groupBy = $attrs['groupBy'] ?? Games::GroupBy_Day;
+        $daysBefore = $attrs['daysBefore'] ?? null;
+        $daysAfter = $attrs['daysAfter'] ?? null;
+
         $games = new Games();
-        $result = $games->getGames(Games::ViewMode_Carousel, Games::GroupBy_Day);
-
-
-        /*
-        $api = new Sfv();
-        $games = $api->getGames(1);
-
-        $db = new DB();
-        $x = $db->getLastRun('schedule');
-        $db->truncate('schedule');
-        $db->insert('schedule', $games);
-        $db->updateLastRun('schedule');
-
-        $x = new CreateDb();
-        //$x->run();
-
-*/
+        $result = $games->getGames( $viewMode, $groupBy, $daysBefore, $daysAfter); //41006);
 
         return $result;
-        return 'xyz';
-        //return implode(',', $games);
     }
 }
