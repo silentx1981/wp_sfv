@@ -9,6 +9,84 @@
       "format": "date-time"
     }
   },
+  "ranking": {
+    "leagueId": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "leagueNumber": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "leagueName": {
+      "type": "string",
+      "nullable": true
+    },
+    "divisionId": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "divisionName": {
+      "type": "string",
+      "nullable": true
+    },
+    "groupId": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "groupName": {
+      "type": "string",
+      "nullable": true
+    },
+    "teamName": {
+      "type": "string",
+      "nullable": true
+    },
+    "clubNumber": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "position": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "matches": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "wins": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "draws": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "losses": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "penaltyPoints": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "goalsFor": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "goalsAgainst": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "points": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "teamId": {
+      "type": "integer",
+      "format": "int32"
+    }
+  },
   "schedule": {
     "matchId": {
       "type": "integer",

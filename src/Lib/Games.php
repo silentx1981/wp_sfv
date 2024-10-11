@@ -2,6 +2,7 @@
 
 namespace wpSfv\Lib;
 
+use SfvApi\Config\Config;
 use SfvApi\Sfv;
 use wpSfv\Db\DB;
 
@@ -17,8 +18,9 @@ class Games
     {
         $db = new DB();
         $api = new Sfv();
+        $reload = Config::get('sfvApiReload', 'Games') ?? 'PT1H';
         $dateNextUpdate = new \DateTime('now');
-        $interval = new \DateInterval('PT1H');
+        $interval = new \DateInterval($reload);
         $dateNextUpdate->sub($interval);
 
         $lastRun = $db->getLastRun($this->tableName)['timestamp'] ?? null;
@@ -188,12 +190,9 @@ class Games
     private function renderGamesCarousel($games)
     {
         $gamesChunk = array_chunk($games, 3, true);
-        $slideId = 'slide99';
-        $content = '';
+        $slideId = 'svfCarousel_'.bin2hex(random_bytes(10));
         $active = 'active';
         $indicatorActive = 'class="active" aria-current="true"';
-
-        $gamesChunk = array_slice($gamesChunk, 0, 4);
 
         $items = [];
         $indicators = [];
