@@ -35,6 +35,11 @@ class AddShortcodes
 
     public static function getRanking(array $attrs = [])
     {
+        $leagueId = $attrs['leagueid'] ?? null;
+
         $ranking = new Ranking();
+        $result = $ranking->getRanking($leagueId);
+
+        return $result;
     }
 }
