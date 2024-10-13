@@ -6,7 +6,7 @@ version="$1"
 # Source-/Target-Directory
 srcDir="./"
 destDir="versions/$version"
-zipFile="versions/${version}.zip"
+zipFile="../${version}.zip"
 
 # Ausgeschlossene Dateien/Ordner
 exclude_patterns=(".idea" ".git" "bin" "ci" "config/config.json" "coverage" "tests" "theme" "versions" ".gitignore" "composer.json" "composer.lock" "package.json" "package-lock.json" "README.md")
@@ -24,7 +24,9 @@ rsync -avq $(printf -- "--exclude=%s " "${exclude_patterns[@]}") "$srcDir" "$des
 
 # Zippe den Ordner
 echo "Packe die Dateien"
-zip -rq "$zipFile" "$destDir"
+cd "versions/$version"
+zip -rq "$zipFile" "./"
+cd ../..
 
 # Löschen vom Temporären Ordner
 echo "Lösche die Dateien, ausser die gepackte Datei"
