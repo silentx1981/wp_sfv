@@ -12,8 +12,8 @@ class League
         $this->leagueNames = Config::get('league', 'names');
     }
 
-    public function renderLeagueName($leagueId, $leagueName)
+    public function renderLeagueName($leagueId, $leagueName, $defaultLeagueId = null, $defaultLeagueName = null)
     {
-        return $this->leagueNames[$leagueId] ?? $leagueName;
+        return $this->leagueNames[$leagueId] ?? $this->leagueNames[$defaultLeagueId] ?? $defaultLeagueName ?? $leagueName;
     }
 }

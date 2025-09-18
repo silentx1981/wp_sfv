@@ -28,7 +28,7 @@ class Games
             $lastRun = new \DateTime($lastRun);
         if (!$lastRun || $lastRun < $dateNextUpdate) {
             $db->truncate($this->tableName);
-            $db->insert($this->tableName, $api->getGames());
+            $db->insert($this->tableName, $api->getGames()->toArray());
             $db->updateLastRun($this->tableName);
         }
     }
@@ -104,10 +104,13 @@ class Games
         $type = $league->renderLeagueName($game['leagueId'], $game['leagueName']);
         $teamNameA = $teams->renderTeamName($game['teamAId'], $game['teamNameA']);
         $scoreTeamA = $this->renderScore($game['scoreTeamA'], $game['matchState']);
+        $scoreTeamAHalftime = $this->renderScore($game['scoreTeamAHalftime'], $game['matchState']);
         $teamNameB = $teams->renderTeamName($game['teamBId'], $game['teamNameB']);
         $scoreTeamB = $this->renderScore($game['scoreTeamB'], $game['matchState']);
+        $scoreTeamBHalftime = $this->renderScore($game['scoreTeamBHalftime'], $game['matchState']);
         $typeIcon = '';
         $matchStateName = '';
+        $matchTypeName = $game['matchTypeName'];
 
         if ($game['matchType'] === '2')
             $typeIcon = '<span><i class="fa-solid fa-trophy"></i> </span>';
@@ -118,15 +121,25 @@ class Games
             $matchStateName = '<div class="text-danger pt-2"><small><i class="fa-solid fa-triangle-exclamation"></i> '.$game['matchStateName'].'</small></div>';
 
         if ($teams->isHomeTeam($game['teamAId'])) {
+            $type = $league->renderLeagueName($game['leagueId'], $game['leagueName'], $game['leagueIdA']);
             $teamNameA = "<strong>$teamNameA</strong>";
             $scoreTeamA = "<strong>$scoreTeamA</strong>";
         } else if ($teams->isHomeTeam($game['teamBId'])) {
+            $type = $league->renderLeagueName($game['leagueId'], $game['leagueName'], $game['leagueIdB']);
             $teamNameB = "<strong>$teamNameB</strong>";
             $scoreTeamB = "<strong>$scoreTeamB</strong>";
         }
 
+        if ($scoreTeamAHalftime !== null) {
+            $scoreTeamA .= " ($scoreTeamAHalftime)";
+        }
+
+        if ($scoreTeamBHalftime !== null) {
+            $scoreTeamB .= " ($scoreTeamBHalftime)";
+        }
+
         $result = ' <div>
-                        <div class="badge bg-primary w-100 mb-3">'.$typeIcon.$type.'</div>
+                        <div class="badge bg-primary w-100 mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="'.$matchTypeName.'">'.$typeIcon.$type.'</div>
                         <div class="d-flex mb-3">
                             <div class="align-self-start text-center ps-2 me-2">
                                 <i class="far fa-2x fa-clock"></i>

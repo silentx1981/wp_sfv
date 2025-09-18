@@ -202,16 +202,42 @@
       "type": "integer",
       "format": "int32"
     },
-    "teamNameA": {
-      "type": "string",
-      "nullable": true
-    },
     "teamBId": {
       "type": "integer",
       "format": "int32"
     },
+    "teamNameA": {
+      "type": "string",
+      "nullable": true
+    },
     "teamNameB": {
       "type": "string",
+      "nullable": true
+    },
+    "leagueIdA": {
+      "type": "int",
+      "nullable": true
+    },
+    "leagueIdB": {
+      "type": "int",
+      "nullable": true
+    },
+    "leagueNameA": {
+      "type": "string",
+      "nullable": true
+    },
+    "leagueNameB": {
+      "type": "string",
+      "nullable": true
+    },
+    "scoreTeamAHalftime": {
+      "type": "integer",
+      "format": "int32",
+      "nullable": true
+    },
+    "scoreTeamBHalftime": {
+      "type": "integer",
+      "format": "int32",
       "nullable": true
     }
   }

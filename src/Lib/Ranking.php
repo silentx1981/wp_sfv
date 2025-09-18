@@ -15,6 +15,11 @@ class Ranking
         $db = new DB();
         $api = new Sfv();
         $reload = Config::get('sfvApiReload', 'Ranking') ?? 'PT1H';
+        $leagueIds = Config::get('league', 'ids');
+        if (!is_array($leagueIds)) {
+            return;
+        }
+
         $dateNextUpdate = new \DateTime('now');
         $interval = new \DateInterval($reload);
         $dateNextUpdate->sub($interval);
@@ -24,7 +29,9 @@ class Ranking
             $lastRun = new \DateTime($lastRun);
         if (!$lastRun || $lastRun < $dateNextUpdate) {
             $db->truncate($this->tableName);
-            $db->insert($this->tableName, $api->getRanking(13029));
+            foreach ($leagueIds as $leagueId) {
+                $db->insert($this->tableName, $api->getRanking($leagueId));
+            }
             $db->updateLastRun($this->tableName);
         }
     }
