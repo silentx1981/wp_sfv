@@ -1,38 +1,49 @@
 #!/usr/bin/bash
 
 # Parameter
-version="$1"
+version="${1:?Version fehlt, z.B. 1.2.3}"
+
+# WICHTIG: Exakter Plugin-Ordnername (Slug) wie in wp-content/plugins/
+plugin_slug="wp_sfv"
 
 # Source-/Target-Directory
-srcDir="./"
-destDir="versions/$version"
-zipFile="../${version}.zip"
+# Skript wird im Projektroot (Eltern von $plugin_slug) ausgeführt
+srcDir="../$plugin_slug"
+workDir="versions/$version"
+destDir="$workDir/$plugin_slug"
+zipFile="$workDir/${plugin_slug}-${version}.zip"
 
 # Ausgeschlossene Dateien/Ordner
-exclude_patterns=(".idea" ".git" "bin" "ci" "config/config.json" "coverage" "tests" "theme" "versions" ".gitignore" "composer.json" "composer.lock" "package.json" "package-lock.json" "README.md")
+exclude_patterns=(
+  ".idea" ".git" "bin" "ci" "config/config.json" "coverage" "tests"
+  "theme" "versions" ".gitignore" "composer.json" "composer.lock"
+  "package.json" "package-lock.json" "README.md"
+)
 
-# Start-Message
-echo "Build Version $version ...";
+echo "Build Version $version für $plugin_slug ..."
 
-# Create DestDir
-echo "Erstelle Ziel-Ordner"
+# Clean & Create work dir
+rm -rf "$workDir"
 mkdir -p "$destDir"
 
-# Kopieren die Dateien
-echo "Kopiere benötigte Dateien"
-rsync -avq $(printf -- "--exclude=%s " "${exclude_patterns[@]}") "$srcDir" "$destDir"
+echo "Kopiere benötigte Dateien nach $destDir"
+# Kopiere IN den Zielordner (Inhalt), aber der Zielordner heißt $plugin_slug
+rsync -avq \
+  $(printf -- "--exclude=%s " "${exclude_patterns[@]}") \
+  "$srcDir/" "$destDir/"
 
-# Zippe den Ordner
-echo "Packe die Dateien"
-cd "versions/$version"
-zip -rq "$zipFile" "./"
-cd ../..
+echo "Packe ZIP mit Root-Ordner $plugin_slug"
+(
+  cd "$workDir"
+  # ZIPPT DEN ORDNER $plugin_slug (nicht ./)
+  zip -rq "$(basename "$zipFile")" "$plugin_slug"
+)
 
-# Löschen vom Temporären Ordner
-echo "Lösche die Dateien, ausser die gepackte Datei"
-rm -R "$destDir"
+echo "Aufräumen (Arbeitskopie behalten, ZIP im gleichen Ordner)"
+# Wenn du die Arbeitskopie nicht brauchst, entkommentieren:
+rm -rf "$destDir"
 
-echo 'Abgeschlossen'
+echo "Fertig: $zipFile"
 
 
 
