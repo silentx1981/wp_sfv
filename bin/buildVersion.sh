@@ -16,8 +16,7 @@ zipFile="$workDir/${plugin_slug}-${version}.zip"
 # Ausgeschlossene Dateien/Ordner
 exclude_patterns=(
   ".idea" ".git" "bin" "ci" "config/config.json" "coverage" "tests"
-  "theme" "versions" ".gitignore" "composer.json" "composer.lock"
-  "package.json" "package-lock.json" "README.md"
+  "theme" "versions" ".gitignore" "README.md"
 )
 
 echo "Build Version $version für $plugin_slug ..."
