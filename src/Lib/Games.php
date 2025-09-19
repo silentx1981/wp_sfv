@@ -18,7 +18,8 @@ class Games
     {
         $db = new DB();
         $api = new Sfv();
-        $reload = Config::get('sfvApiReload', 'Games') ?? 'PT1H';
+        $reload = Config::get('sfvApiReload', 'Games');
+        $reload = $reload == '' ? 'PT1H' : $reload;
         $dateNextUpdate = new \DateTime('now');
         $interval = new \DateInterval($reload);
         $dateNextUpdate->sub($interval);

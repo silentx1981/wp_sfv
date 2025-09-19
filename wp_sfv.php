@@ -6,7 +6,7 @@
  * Description: Damit können Inhalte von der SFV-API im Wordpress integriert werden
  * Author: Raffael Wyss
  * Author: URI: https://wyssinet.ch
- * Version: 1.0.3
+ * Version: 1.0.4
  */
 
 require_once(WP_PLUGIN_DIR.'/wp_sfv/vendor/autoload.php');
